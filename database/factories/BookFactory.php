@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class BookFactory extends Factory
 {
     protected $model = Book::class;
-
-    // Cache pools once
     private static ?array $authorIds = null;
     private static ?array $categoryIds = null;
 

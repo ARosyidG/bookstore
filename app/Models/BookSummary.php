@@ -3,15 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Rating extends Model
+class BookSummary extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['book_id', 'rating'];
-    // public $timestamps = false;
+    protected $fillable = ['book_id', 'avg_rating', 'voters_count'];
 
     public function book(): BelongsTo
     {

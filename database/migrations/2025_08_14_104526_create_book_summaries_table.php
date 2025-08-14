@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('books', function (Blueprint $table) {
+        Schema::create('book_summaries', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->foreignId('author_id')->constrained()->onDelete('cascade');
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('book_id')->constrained()->onDelete('cascade');
+            $table->decimal('avg_rating', 3, 2)->default(0.00);
+            $table->unsignedInteger('voters_count')->default(0);
             $table->timestamps();
 
-            $table->index('title');
-            $table->index('author_id');
+            $table->index(['avg_rating', 'voters_count']);
         });
     }
 
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('books');
+        Schema::dropIfExists('book_summaries');
     }
 };
