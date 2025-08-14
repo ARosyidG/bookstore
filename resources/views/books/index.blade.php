@@ -16,19 +16,27 @@
 </head>
 <body>
     <h1 class="text-2xl text-center text-gray-950">BOOK LIST</h1>
-    <form id="filter" class="flex flex-col items-center justify-center gap-4 mt-6" method="GET" action="">
+    <form id="filter" class="flex flex-col items-center justify-center gap-4 mt-6" method="GET" action="{{route('books.index')}}">
         <div>
             <div class="grid items-center">
-                <label for="shownList">List Shown :</label>
-                <select name="shownList" id="shownList" class="border rounded px-2 py-1">
+                <label for="per_page">List Shown :</label>
+                <select name="per_page" id="per_page" class="border rounded px-2 py-1">
                     @for ($i = 10; $i <= 100; $i += 10)
-                        <option value="{{ $i }}">{{ $i }}</option>
+                        <option value="{{ $i }}"
+                            {{ request('per_page', 10) == $i ? 'selected' : '' }}>
+                            {{ $i }}
+                        </option>
                     @endfor
                 </select>
             </div>
             <div class="grid items-center">
                 <label for="Search">Search :</label>
-                <input type="text" name="search" id="Search" class="border rounded px-2 py-1">
+                <input
+                    type="text"
+                    name="search"
+                    id="Search"
+                    value="{{request('search')}}"
+                    class="border rounded px-2 py-1">
             </div>
         </div>
         <button type="submit" class="mt-2 px-4 py-1 bg-[#1b1b18] text-white rounded">Submit</button>
@@ -38,6 +46,7 @@
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
+                        <th scope="col" class="px-6 py-3">No</th>
                         <th scope="col" class="px-6 py-3">Title</th>
                         <th scope="col" class="px-6 py-3">Category Name</th>
                         <th scope="col" class="px-6 py-3">Author</th>
@@ -46,8 +55,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($books as $book)
+                    @foreach($books as $index => $book)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                        <td class="px-6 py-4">{{ ($books->currentPage() - 1) * $books->perPage() + $index + 1 }}</td>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $book->title }}</th>
                         <td class="px-6 py-4">{{ $book->category->name }}</td>
                         <td class="px-6 py-4">{{ $book->author->name }}</td>
