@@ -14,7 +14,6 @@ class BookFactory extends Factory
     // Cache pools once
     private static ?array $authorIds = null;
     private static ?array $categoryIds = null;
-    private static int $seq = 1; // cheap uniqueness for titles
 
     public function definition(): array
     {
@@ -25,11 +24,8 @@ class BookFactory extends Factory
             throw new \RuntimeException('No authors or categories available to create books.');
         }
 
-        // Avoid Faker unique() for huge volumes (it keeps a big set)
-        $title = 'Book ' . (self::$seq++) . ' — ' . $this->faker->words(4, true);
-
         return [
-            'title'       => $title,
+            'title'       => $this->faker->sentence(10),
             'author_id'   => self::$authorIds[array_rand(self::$authorIds)],
             'category_id' => self::$categoryIds[array_rand(self::$categoryIds)],
         ];
