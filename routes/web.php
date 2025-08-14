@@ -7,3 +7,4 @@ Route::get('/', function () {
 });
 
 Route::get('books', [\App\Http\Controllers\BookController::class, 'index'])->name('books.index');
+Route::get('top-authors', [\App\Http\Controllers\AuthorCOntroller::class, 'index'])->name('top-authors.index');

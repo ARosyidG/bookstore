@@ -15,51 +15,29 @@
     @endif
 </head>
 <body>
-    <h1 class="text-2xl text-center text-gray-950">BOOK LIST</h1>
-    <form id="filter" class="flex flex-col items-center justify-center gap-4 mt-6" method="GET" action="">
-        <div>
-            <div class="grid items-center">
-                <label for="shownList">List Shown :</label>
-                <select name="shownList" id="shownList" class="border rounded px-2 py-1">
-                    @for ($i = 10; $i <= 100; $i += 10)
-                        <option value="{{ $i }}">{{ $i }}</option>
-                    @endfor
-                </select>
-            </div>
-            <div class="grid items-center">
-                <label for="Search">Search :</label>
-                <input type="text" name="search" id="Search" class="border rounded px-2 py-1">
-            </div>
-        </div>
-        <button type="submit" class="mt-2 px-4 py-1 bg-[#1b1b18] text-white rounded">Submit</button>
-    </form>
-    @if($books->count() > 0)
+    <h1 class="text-2xl text-center text-gray-950">TOP 10 MOST FAMOUS AUTHORS</h1>
+    @if($authors->count() > 0)
         <div class="relative overflow-x-auto m-[1rem]">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <th scope="col" class="px-6 py-3">Title</th>
-                        <th scope="col" class="px-6 py-3">Category Name</th>
+                        <th scope="col" class="px-6 py-3">No</th>
                         <th scope="col" class="px-6 py-3">Author</th>
-                        <th scope="col" class="px-6 py-3">Avg Rating</th>
-                        <th scope="col" class="px-6 py-3">Voters</th>
+                        <th scope="col" class="px-6 py-3">Total Voters</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($books as $book)
+                    @foreach($authors as $index => $author)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $book->title }}</th>
-                        <td class="px-6 py-4">{{ $book->category->name }}</td>
-                        <td class="px-6 py-4">{{ $book->author->name }}</td>
-                        <td class="px-6 py-4">{{ number_format($book->summary->avg_rating ?? 0, 1) }}</td>
-                        <td class="px-6 py-4">{{ $book->summary->voters_count ?? 0 }}</td>
-                    </tr>
+                        <td class="px-6 py-4">{{ $loop->iteration }}</td>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $author->name }}</th>
+                        <td class="px-6 py-4">{{ $author->total_voters }}</td>
                     @endforeach
                 </tbody>
             </table>
         </div>
     @else
-        <div class="alert alert-info">No books found matching your criteria</div>
+        <div class="alert alert-info">No Authors</div>
     @endif
 </body>
 </html>
