@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('book_summaries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('book_id')->constrained()->onDelete('cascade');
-            $table->decimal('avg_rating', 3, 2)->default(0.00);
+            $table->decimal('avg_rating', 5, 2)->default(0.00);
             $table->unsignedInteger('voters_count')->default(0);
             $table->timestamps();
 

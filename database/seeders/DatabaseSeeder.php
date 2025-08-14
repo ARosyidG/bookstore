@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->seedAuthors();
         $this->seedBooks();
         $this->seedRatings();
+        $this->fillBookSummaries();
     }
 
     protected function seedCategories(): void
@@ -41,6 +42,25 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->bulkInsertWithFactory(Rating::factory(), 500_000, 'ratings', 10_000);
+    }
+    protected function fillBookSummaries(): void
+    {
+        $now = Carbon::now();
+        Book::chunk(1000, function ($books) use ($now) {
+            $bookSummaries = $books->map(function ($book) use ($now) {
+                $avgRating = $book->ratings()->avg('rating') ?? 0;
+                $votersCount = $book->ratings()->count();
+                return [
+                    'book_id' => $book->id,
+                    'avg_rating' => round($avgRating, 2),
+                    'voters_count' => $votersCount,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+            })->all();
+
+            DB::table('book_summaries')->insert($bookSummaries);
+        });
     }
 
     // create in batches to avoid memory issues
